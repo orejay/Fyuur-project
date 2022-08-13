@@ -25,9 +25,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# TODO: connect to a local postgresql database
-
-
 #----------------------------------------------------------------------------#
 # Models.
 #----------------------------------------------------------------------------#
@@ -125,20 +122,21 @@ def index():
 def venues():
     # TODO: replace with real venues data.
     #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
-
-    data = [{
-        "city": "San Francisco",
-        "state": "CA",
-        "venues": [{
-            "id": 1,
-            "name": "The Musical Hop",
-            "num_upcoming_shows": 0,
-        }, {
-            "id": 3,
-            "name": "Park Square Live Music & Coffee",
-            "num_upcoming_shows": 1,
-        }]
-    }]
+    venues = Venue.query.distinct(Venue.city).all()
+    data = []
+    for venue in venues:
+        data.append({
+            "city": venue.city,
+            "state": venue.state,
+            "venues": []
+        })
+        city_venues = Venue.query.filter_by(city=venue.city).all()
+        for i in city_venues:
+            data[city_venues.index(i)]["venues"].append({
+                "id": i.id,
+                "name": i.name,
+                "num_upcoming_shows": 0,
+            })
     return render_template('pages/venues.html', areas=data)
 
 
@@ -336,7 +334,6 @@ def show_artist(artist_id):
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
 def edit_artist(artist_id):
     form = ArtistForm()
-    # TODO: populate form with fields from artist with ID <artist_id>
     artist = Artist.query.get(artist_id)
     form.name.data = artist.name
     form.city.data = artist.city
@@ -347,13 +344,12 @@ def edit_artist(artist_id):
     form.image_link.data = artist.image_link
     form.website_link.data = artist.website_link
     form.seeking_venue.data = artist.searching_venues
-    # form.seeking_description = artist.search_description
+    form.seeking_description.data = artist.search_description
     return render_template('forms/edit_artist.html', form=form, artist=artist)
 
 
 @app.route('/artists/<int:artist_id>/edit', methods=['POST'])
 def edit_artist_submission(artist_id):
-    # TODO: take values from the form submitted, and update existing
     artist_form = ArtistForm(request.form)
     try:
         # artist record with ID <artist_id> using the new attributes
