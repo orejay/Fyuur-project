@@ -358,17 +358,17 @@ def edit_artist_submission(artist_id):
     try:
         # artist record with ID <artist_id> using the new attributes
         artist = Artist.query.get(artist_id)
-        artist.name = artist_form.name.data,
-        artist.city = artist_form.city.data,
-        artist.state = artist_form.state.data,
-        artist.phone = artist_form.phone.data,
-        artist.genres = ', '.join(artist_form.genres.data),
-        artist.facebook_link = artist_form.facebook_link.data,
-        artist.image_link = artist_form.image_link.data,
-        artist.website_link = artist_form.website_link.data,
-        artist.searching_venues = artist_form.seeking_venue.data,
-        # artist.search_description = artist_form.seeking_description.data
-        db.session.update(artist)
+
+        artist.name = artist_form.name.data
+        artist.city = artist_form.city.data
+        artist.state = artist_form.state.data
+        artist.phone = artist_form.phone.data
+        artist.genres = ', '.join(artist_form.genres.data)
+        artist.facebook_link = artist_form.facebook_link.data
+        artist.image_link = artist_form.image_link.data
+        artist.website_link = artist_form.website_link.data
+        artist.searching_venues = artist_form.seeking_venue.data
+        artist.search_description = artist_form.seeking_description.data
         db.session.commit()
     except ():
         error = True
