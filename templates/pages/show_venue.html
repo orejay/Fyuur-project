@@ -94,8 +94,12 @@ block content %}
 <a href="/venues/{{ venue.id }}/edit"
   ><button class="btn btn-primary btn-lg">Edit</button></a
 >
-<a href="/venues/delete/{{ venue.id }}"
-  ><button id="delete" data-id="{{ venue.id }}" class="btn btn-primary btn-lg">
+<a href="/venues"
+  ><button
+    id="delete-venue"
+    data-id="{{ venue.id }}"
+    class="btn btn-primary btn-lg"
+  >
     Delete
   </button></a
 >
