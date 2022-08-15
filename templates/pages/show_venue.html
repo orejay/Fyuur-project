@@ -103,5 +103,16 @@ block content %}
     Delete
   </button></a
 >
-
+<script>
+  const deleteBtnV = document.getElementById("delete-venue");
+  deleteBtnV.onclick = function (e) {
+    const venueId = e.target.dataset.id;
+    console.log(venueId);
+    fetch("/venues/" + venueId, {
+      method: "DELETE",
+    }).catch(function (e) {
+      console.log(e);
+    });
+  };
+</script>
 {% endblock %}

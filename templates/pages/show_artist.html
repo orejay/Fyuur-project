@@ -97,4 +97,16 @@ endblock %} {% block content %}
   </button></a
 >
 
+<script>
+  const deleteBtnA = document.getElementById("delete-artist");
+  deleteBtnA.onclick = function (e) {
+    const artistId = e.target.dataset.id;
+    console.log(artistId);
+    fetch("/artists/" + artistId, {
+      method: "DELETE",
+    }).catch(function (e) {
+      console.log(e);
+    });
+  };
+</script>
 {% endblock %}

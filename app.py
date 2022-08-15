@@ -143,7 +143,7 @@ def show_venue(venue_id):
         data = {
             "id": venue.id,
             "name": venue.name,
-            "genres": venue.genres,
+            "genres": venue.genres.split(','),
             "address": venue.address,
             "city": venue.city,
             "state": venue.state,
@@ -356,7 +356,7 @@ def show_artist(artist_id):
         data = {
             "id": artist.id,
             "name": artist.name,
-            "genres": artist.genres,
+            "genres": artist.genres.split(','),
             "city": artist.city,
             "state": artist.state,
             "phone": artist.phone,
